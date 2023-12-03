@@ -125,7 +125,7 @@ class Modules:
         return self
 
     def select(self, module_filter):
-        print 'Selected modules: %s' % module_filter
+        print ('Selected modules: %s' % module_filter)
         self.module_filter = module_filter
     
     def selected(self):
@@ -180,13 +180,13 @@ class Esp:
         self.flashmode = flashmode
 
     def write_flash(self, address, path):
-        print 'Flashing %s' % os.path.basename(path)
+        print ('Flashing %s' % os.path.basename(path))
         os.system("python esptool.py -p %s write_flash -fm %s -ff 40m 0x%x %s" % (self.port, self.flashmode, address, path))
 
     def write_flash_many(self, tupl):
         if not tupl: return
-        print 'Flashing %s' % ', '.join('0x%x: %s' % (address, os.path.basename(path)) for (address, path) in tupl)
-        os.system("python esptool.py -p %s write_flash -fs 32m -fm %s -ff 40m %s" % (self.port, self.flashmode, ' '.join("0x%x %s" % each for each in tupl)))
+        print ('Flashing %s' % ', '.join('0x%x: %s' % (int(address), os.path.basename(path)) for (address, path) in tupl))
+        os.system("python esptool.py -p %s write_flash -fs 32m -fm %s -ff 40m %s" % (self.port, self.flashmode, ' '.join("0x%x %s" % (int(a),p) for a,p in tupl)))
 
 class CommandLine:
     @staticmethod
